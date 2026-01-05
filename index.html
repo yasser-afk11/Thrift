@@ -338,11 +338,56 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: var(--transition);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            position: absolute;
+            top: 0;
+            left: 0;
         }
         
-        .product-card:hover .product-img {
-            transform: scale(1.08);
+        .product-img.front {
+            opacity: 1;
+            z-index: 1;
+        }
+        
+        .product-img.back {
+            opacity: 0;
+            z-index: 0;
+            transform: scale(1.05);
+        }
+        
+        .product-card:hover .product-img.front {
+            opacity: 0;
+            transform: scale(1.05);
+        }
+        
+        .product-card:hover .product-img.back {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .hover-indicator {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--primary);
+            z-index: 3;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            pointer-events: none;
+        }
+        
+        .product-card:hover .hover-indicator {
+            opacity: 1;
+            transform: translateY(0);
         }
         
         .availability-badge {
@@ -604,7 +649,6 @@
             nav ul.active {
                 transform: translateY(0);
                 opacity: 1;
-                visibility: visible;
             }
             
             .logo img {
@@ -630,6 +674,10 @@
             .save-item {
                 width: 100%;
             }
+            
+            .hover-indicator {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -637,7 +685,7 @@
     <header>
         <div class="container header-content">
             <div class="logo">
-                <img src="logo.jpeg" alt="Thrift with okuri">
+                <img src="ss.png" alt="Thrift with okuri">
                 <div class="logo-text">
                     <div class="logo-main">Thrift</div>
                     <div class="logo-sub">WITH OKURI</div>
@@ -731,15 +779,87 @@
 
     <script>
         const products = [
-            {id: 1, name: "Vintage Denim Jacket", price: 45.99, category: "outerwear", available: true, img: "https://images.unsplash.com/photo-1543076447-215ad9ba6923?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"},
-            {id: 2, name: "Oversized Graphic Tee", price: 24.99, category: "tops", available: true, img: "https://images.unsplash.com/photo-1581655353564-df123a1eb820?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"},
-            {id: 3, name: "High-Waist Trousers", price: 32.50, category: "bottoms", available: false, img: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"},
-            {id: 4, name: "Knit Sweater Vest", price: 28.75, category: "tops", available: true, img: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"},
-            {id: 5, name: "Corduroy Skirt", price: 26.99, category: "bottoms", available: true, img: "https://images.unsplash.com/photo-1582418702059-97ebafb35d09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"},
-            {id: 6, name: "Leather Tote Bag", price: 52.00, category: "accessories", available: true, img: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"},
-            {id: 7, name: "Wool Blend Coat", price: 68.50, category: "outerwear", available: false, img: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"},
-            {id: 8, name: "Silk Button-Up", price: 38.25, category: "tops", available: true, img: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"},
-            {id: 9, name: "Canvas Bucket Hat", price: 22.99, category: "accessories", available: true, img: "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"}
+            {
+                id: 1, 
+                name: "Vintage Denim Jacket", 
+                price: 45.99, 
+                category: "outerwear", 
+                available: true, 
+                img: "https://images.unsplash.com/photo-1543076447-215ad9ba6923?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+                imgBack: "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+            },
+            {
+                id: 2, 
+                name: "Oversized Graphic Tee", 
+                price: 24.99, 
+                category: "tops", 
+                available: true, 
+                img: "https://images.unsplash.com/photo-1581655353564-df123a1eb820?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+                imgBack: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+            },
+            {
+                id: 3, 
+                name: "High-Waist Trousers", 
+                price: 32.50, 
+                category: "bottoms", 
+                available: false, 
+                img: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+                imgBack: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+            },
+            {
+                id: 4, 
+                name: "Knit Sweater Vest", 
+                price: 28.75, 
+                category: "tops", 
+                available: true, 
+                img: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+                imgBack: "https://images.unsplash.com/photo-1582418702059-97ebafb35d09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+            },
+            {
+                id: 5, 
+                name: "Corduroy Skirt", 
+                price: 26.99, 
+                category: "bottoms", 
+                available: true, 
+                img: "https://images.unsplash.com/photo-1582418702059-97ebafb35d09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+                imgBack: "https://images.unsplash.com/photo-1581655353564-df123a1eb820?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+            },
+            {
+                id: 6, 
+                name: "Leather Tote Bag", 
+                price: 52.00, 
+                category: "accessories", 
+                available: true, 
+                img: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+                imgBack: "https://images.unsplash.com/photo-1543076447-215ad9ba6923?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+            },
+            {
+                id: 7, 
+                name: "Wool Blend Coat", 
+                price: 68.50, 
+                category: "outerwear", 
+                available: false, 
+                img: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+                imgBack: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+            },
+            {
+                id: 8, 
+                name: "Silk Button-Up", 
+                price: 38.25, 
+                category: "tops", 
+                available: true, 
+                img: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+                imgBack: "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+            },
+            {
+                id: 9, 
+                name: "Canvas Bucket Hat", 
+                price: 22.99, 
+                category: "accessories", 
+                available: true, 
+                img: "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+                imgBack: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+            }
         ];
 
         const productGrid = document.getElementById('productGrid');
@@ -756,7 +876,11 @@
                 card.className = 'product-card';
                 card.innerHTML = `
                     <div class="product-img-container">
-                        <img src="${p.img}" alt="${p.name}" class="product-img">
+                        <img src="${p.img}" alt="${p.name} - Front View" class="product-img front">
+                        <img src="${p.imgBack || p.img}" alt="${p.name} - Back View" class="product-img back">
+                        <div class="hover-indicator">
+                            <i class="fas fa-arrows-alt-h"></i> Hover to see back view
+                        </div>
                         <div class="availability-badge ${p.available ? 'available' : 'sold-out'}">
                             ${p.available ? 'Available' : 'Sold Out'}
                         </div>
@@ -799,7 +923,32 @@
             const productId = btn.getAttribute('data-id');
             const product = products.find(p => p.id == productId);
             
-            alert(`Viewing details for: ${product.name}\nPrice: $${product.price.toFixed(2)}\nStatus: ${product.available ? 'Available' : 'Sold Out'}`);
+            // Save product data to localStorage so the details page can access it
+            localStorage.setItem('currentProduct', JSON.stringify(product));
+            
+            // Change button to show loading state
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+            btn.disabled = true;
+            
+            // Simulate loading and then redirect to details page
+            setTimeout(() => {
+                btn.innerHTML = '<i class="fas fa-check"></i> Ready!';
+                
+                // Reset button after a moment
+                setTimeout(() => {
+                    btn.innerHTML = originalHTML;
+                    btn.disabled = false;
+                    
+                    // HERE: Add your page redirection logic
+                    // Example: window.location.href = `product-details.html?id=${productId}`;
+                    
+                    // For demonstration, let's just console log
+                    console.log(`Redirecting to details page for product ID: ${productId}`);
+                    console.log('Product data saved to localStorage:', product);
+                    
+                }, 1000);
+            }, 800);
         }
 
         function toggleSaveItem(e) {
@@ -862,4 +1011,3 @@
     </script>
 </body>
 </html>
-
