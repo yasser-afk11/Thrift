@@ -23,6 +23,8 @@
             --shadow-hover: 0 12px 30px rgba(90, 0, 74, 0.18);
             --radius: 12px;
             --radius-sm: 6px;
+            --available: #27AE60;
+            --sold-out: #E74C3C;
         }
         
         * {
@@ -67,8 +69,8 @@
             position: sticky;
             top: 0;
             z-index: 1000;
-            background-color: rgba(255, 255, 255, 0.95);
-            border-bottom: 1px solid var(--light-gray);
+            background-color: #5A004A;
+            border-bottom: 1px solid var(--secondary);
             padding: 0;
             backdrop-filter: blur(10px);
         }
@@ -93,8 +95,7 @@
         }
         
         .logo-text {
-            display: flex;
-            flex-direction: column;
+            display: none;
         }
         
         .logo-main {
@@ -132,11 +133,11 @@
             font-size: 15px;
             position: relative;
             padding: 6px 0;
-            color: var(--secondary);
+            color: var(--white);
         }
         
         nav a:hover {
-            color: var(--primary);
+            color: var(--accent-light);
         }
         
         nav a::after {
@@ -146,7 +147,7 @@
             height: 2px;
             bottom: 0;
             left: 0;
-            background-color: var(--accent);
+            background-color: var(--accent-light);
             transition: var(--transition);
         }
         
@@ -317,6 +318,7 @@
             transition: var(--transition);
             box-shadow: var(--shadow);
             border: 1px solid var(--border);
+            position: relative;
         }
         
         .product-card:hover {
@@ -325,16 +327,46 @@
             border-color: var(--accent-light);
         }
         
-        .product-img {
+        .product-img-container {
             width: 100%;
             height: 340px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .product-img {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
-            background-color: var(--light-gray);
             transition: var(--transition);
         }
         
         .product-card:hover .product-img {
-            transform: scale(1.03);
+            transform: scale(1.08);
+        }
+        
+        .availability-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 2;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .available {
+            background-color: var(--available);
+            color: white;
+        }
+        
+        .sold-out {
+            background-color: var(--sold-out);
+            color: white;
         }
         
         .product-info {
@@ -352,11 +384,17 @@
             font-size: 20px;
             font-weight: 700;
             color: var(--accent);
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
         
-        .add-to-cart {
-            width: 100%;
+        .product-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        
+        .view-details {
+            flex: 1;
             padding: 14px;
             background-color: var(--light);
             border: 1px solid var(--border);
@@ -368,64 +406,57 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
+            text-align: center;
         }
         
-        .add-to-cart:hover {
+        .view-details:hover {
+            background-color: var(--accent-light);
+            color: var(--white);
+            border-color: var(--accent-light);
+        }
+        
+        .save-item {
+            width: 50px;
+            padding: 14px;
+            background-color: var(--light);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .save-item:hover {
             background-color: var(--accent);
             color: var(--white);
             border-color: var(--accent);
         }
         
-        .partners {
-            background-color: var(--light);
-        }
-        
-        .partner-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 32px;
-        }
-        
-        .partner-card {
-            background-color: var(--white);
-            border-radius: var(--radius);
-            padding: 40px 30px;
-            text-align: center;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            border: 1px solid transparent;
-        }
-        
-        .partner-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-hover);
-            border-color: var(--accent-light);
-        }
-        
-        .partner-logo {
-            font-size: 42px;
-            color: var(--accent);
-            background: var(--light);
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
+        .availability-text {
+            font-size: 13px;
+            padding: 8px 12px;
+            border-radius: var(--radius-sm);
+            margin-top: 12px;
+            font-weight: 500;
             display: flex;
             align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
+            gap: 6px;
+            transition: var(--transition);
         }
         
-        .partner-name {
-            font-weight: 700;
-            margin-bottom: 12px;
-            font-size: 20px;
-            color: var(--primary);
+        .available-text {
+            background-color: rgba(39, 174, 96, 0.1);
+            color: var(--available);
+            border-left: 3px solid var(--available);
         }
         
-        .partner-desc {
-            font-size: 15px;
-            color: var(--secondary);
-            opacity: 0.9;
+        .sold-out-text {
+            background-color: rgba(231, 76, 60, 0.1);
+            color: var(--sold-out);
+            border-left: 3px solid var(--sold-out);
         }
         
         footer {
@@ -583,6 +614,22 @@
             .logo-main {
                 font-size: 32px;
             }
+            
+            .hero h1 {
+                font-size: 48px;
+            }
+            
+            .section-title {
+                font-size: 36px;
+            }
+            
+            .product-actions {
+                flex-direction: column;
+            }
+            
+            .save-item {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -590,7 +637,7 @@
     <header>
         <div class="container header-content">
             <div class="logo">
-                <img src="logo.jpeg" alt="Thrift with okuri">
+                <img src="ss.png" alt="Thrift with okuri">
                 <div class="logo-text">
                     <div class="logo-main">Thrift</div>
                     <div class="logo-sub">WITH OKURI</div>
@@ -657,8 +704,6 @@
                     <h3>Quick Links</h3>
                     <ul>
                         <li><a href="#catalog">Catalog</a></li>
-                        <li><a href="#partners">Partners</a></li>
-                        <li><a href="#about">About Us</a></li>
                         <li><a href="#contact">Contact</a></li>
                         <li><a href="#">FAQ</a></li>
                     </ul>
@@ -686,15 +731,15 @@
 
     <script>
         const products = [
-            {id: 1, name: "Vintage Denim Jacket", price: 45.99, category: "outerwear", imgColor: "#D4A5C9"},
-            {id: 2, name: "Oversized Graphic Tee", price: 24.99, category: "tops", imgColor: "#E5D4E8"},
-            {id: 3, name: "High-Waist Trousers", price: 32.50, category: "bottoms", imgColor: "#C89BBF"},
-            {id: 4, name: "Knit Sweater Vest", price: 28.75, category: "tops", imgColor: "#DEC9E3"},
-            {id: 5, name: "Corduroy Skirt", price: 26.99, category: "bottoms", imgColor: "#C4B0CF"},
-            {id: 6, name: "Leather Tote Bag", price: 52.00, category: "accessories", imgColor: "#B8A5C9"},
-            {id: 7, name: "Wool Blend Coat", price: 68.50, category: "outerwear", imgColor: "#A88FB8"},
-            {id: 8, name: "Silk Button-Up", price: 38.25, category: "tops", imgColor: "#EFE2F2"},
-            {id: 9, name: "Canvas Bucket Hat", price: 22.99, category: "accessories", imgColor: "#CDB8D7"}
+            {id: 1, name: "Vintage Denim Jacket", price: 45.99, category: "outerwear", available: true, img: "https://images.unsplash.com/photo-1543076447-215ad9ba6923?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"},
+            {id: 2, name: "Oversized Graphic Tee", price: 24.99, category: "tops", available: true, img: "https://images.unsplash.com/photo-1581655353564-df123a1eb820?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"},
+            {id: 3, name: "High-Waist Trousers", price: 32.50, category: "bottoms", available: false, img: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"},
+            {id: 4, name: "Knit Sweater Vest", price: 28.75, category: "tops", available: true, img: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"},
+            {id: 5, name: "Corduroy Skirt", price: 26.99, category: "bottoms", available: true, img: "https://images.unsplash.com/photo-1582418702059-97ebafb35d09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"},
+            {id: 6, name: "Leather Tote Bag", price: 52.00, category: "accessories", available: true, img: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"},
+            {id: 7, name: "Wool Blend Coat", price: 68.50, category: "outerwear", available: false, img: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"},
+            {id: 8, name: "Silk Button-Up", price: 38.25, category: "tops", available: true, img: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"},
+            {id: 9, name: "Canvas Bucket Hat", price: 22.99, category: "accessories", available: true, img: "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"}
         ];
 
         const productGrid = document.getElementById('productGrid');
@@ -710,33 +755,76 @@
                 const card = document.createElement('div');
                 card.className = 'product-card';
                 card.innerHTML = `
-                    <div class="product-img" style="background-color: ${p.imgColor};"></div>
+                    <div class="product-img-container">
+                        <img src="${p.img}" alt="${p.name}" class="product-img">
+                        <div class="availability-badge ${p.available ? 'available' : 'sold-out'}">
+                            ${p.available ? 'Available' : 'Sold Out'}
+                        </div>
+                    </div>
                     <div class="product-info">
                         <h3 class="product-title">${p.name}</h3>
                         <div class="product-price">$${p.price.toFixed(2)}</div>
-                        <button class="add-to-cart" data-id="${p.id}">
-                            <i class="fas fa-plus"></i>
-                            Add to Cart
-                        </button>
+                        
+                        <div class="availability-text ${p.available ? 'available-text' : 'sold-out-text'}">
+                            <i class="fas ${p.available ? 'fa-check-circle' : 'fa-times-circle'}"></i>
+                            ${p.available ? 'This item is currently available for purchase' : 'Sorry, this item has been sold'}
+                        </div>
+                        
+                        <div class="product-actions">
+                            <button class="view-details" data-id="${p.id}">
+                                <i class="fas fa-eye"></i>
+                                View Details
+                            </button>
+                            <button class="save-item" data-id="${p.id}">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
                     </div>
                 `;
                 productGrid.appendChild(card);
             });
             
-            document.querySelectorAll('.add-to-cart').forEach(btn => {
-                btn.addEventListener('click', addToCart);
+            // Add event listeners for new buttons
+            document.querySelectorAll('.view-details').forEach(btn => {
+                btn.addEventListener('click', viewDetails);
+            });
+            
+            document.querySelectorAll('.save-item').forEach(btn => {
+                btn.addEventListener('click', toggleSaveItem);
             });
         }
 
-        function addToCart(e) {
-            const btn = e.target.closest('.add-to-cart');
-            const orig = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-check"></i> Added!';
-            btn.style.backgroundColor = '#2ecc71';
-            setTimeout(() => {
-                btn.innerHTML = orig;
+        function viewDetails(e) {
+            const btn = e.target.closest('.view-details');
+            const productId = btn.getAttribute('data-id');
+            const product = products.find(p => p.id == productId);
+            
+            alert(`Viewing details for: ${product.name}\nPrice: $${product.price.toFixed(2)}\nStatus: ${product.available ? 'Available' : 'Sold Out'}`);
+        }
+
+        function toggleSaveItem(e) {
+            const btn = e.target.closest('.save-item');
+            const icon = btn.querySelector('i');
+            
+            if (icon.classList.contains('far')) {
+                icon.classList.remove('far');
+                icon.classList.add('fas');
+                btn.style.backgroundColor = 'var(--accent)';
+                btn.style.color = 'var(--white)';
+                btn.style.borderColor = 'var(--accent)';
+                
+                // Animation effect
+                btn.style.transform = 'scale(1.2)';
+                setTimeout(() => {
+                    btn.style.transform = 'scale(1)';
+                }, 200);
+            } else {
+                icon.classList.remove('fas');
+                icon.classList.add('far');
                 btn.style.backgroundColor = '';
-            }, 1500);
+                btn.style.color = '';
+                btn.style.borderColor = '';
+            }
         }
 
         filterButtons.forEach(btn => {
