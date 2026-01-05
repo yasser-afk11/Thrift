@@ -3,22 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thrift WITH KOKURU | Modern Clothing Catalog</title>
+    <title>Thrift with okuri</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #000000;
-            --secondary: #333333;
-            --accent: #5a5a5a;
-            --light: #f5f5f5;
-            --border: #e0e0e0;
+            --primary: #5A004A;
+            --secondary: #7A1B6B;
+            --accent: #C89BBF;
+            --accent-light: #D4A5C9;
+            --light: #F3E6F0;
+            --light-gray: #F0E6EE;
+            --border: #E5D4E8;
             --white: #ffffff;
-            --transition: all 0.3s ease;
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            --radius: 8px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --shadow: 0 5px 15px rgba(90, 0, 74, 0.12);
+            --shadow-hover: 0 12px 30px rgba(90, 0, 74, 0.18);
+            --radius: 12px;
+            --radius-sm: 6px;
         }
         
         * {
@@ -29,85 +33,110 @@
         
         body {
             font-family: 'Inter', sans-serif;
-            color: var(--primary);
+            color: var(--secondary);
             background-color: var(--white);
-            line-height: 1.6;
+            line-height: 1.7;
             overflow-x: hidden;
         }
         
         h1, h2, h3, h4 {
             font-family: 'Space Grotesk', sans-serif;
-            font-weight: 600;
-            line-height: 1.3;
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
         }
         
         a {
             text-decoration: none;
             color: inherit;
+            transition: var(--transition);
         }
         
         .container {
             width: 100%;
-            max-width: 1200px;
+            max-width: 1280px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 24px;
         }
         
-        /* Header & Navigation */
+        section {
+            padding: 80px 0;
+        }
+        
         header {
             position: sticky;
             top: 0;
-            z-index: 100;
-            background-color: var(--white);
-            box-shadow: var(--shadow);
-            padding: 15px 0;
+            z-index: 1000;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-bottom: 1px solid var(--light-gray);
+            padding: 0;
+            backdrop-filter: blur(10px);
         }
         
         .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 0;
         }
         
         .logo {
             display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .logo img {
+            height: 100px;
+            width: auto;
+            display: block;
+        }
+        
+        .logo-text {
+            display: flex;
             flex-direction: column;
-            align-items: flex-start;
         }
         
         .logo-main {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 32px;
-            font-weight: 700;
-            letter-spacing: -1px;
+            font-size: 42px;
+            font-weight: 800;
+            letter-spacing: -2px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
         .logo-sub {
-            font-size: 12px;
-            letter-spacing: 4px;
-            margin-top: -4px;
+            font-size: 14px;
+            letter-spacing: 6px;
+            text-transform: uppercase;
             color: var(--accent);
+            font-weight: 600;
+            margin-top: 4px;
+        }
+        
+        nav {
+            margin-right: 120px;
         }
         
         nav ul {
             display: flex;
             list-style: none;
-        }
-        
-        nav li {
-            margin-left: 30px;
+            gap: 32px;
         }
         
         nav a {
             font-weight: 500;
             font-size: 15px;
             position: relative;
-            padding: 5px 0;
-            transition: var(--transition);
+            padding: 6px 0;
+            color: var(--secondary);
         }
         
         nav a:hover {
-            color: var(--accent);
+            color: var(--primary);
         }
         
         nav a::after {
@@ -117,7 +146,7 @@
             height: 2px;
             bottom: 0;
             left: 0;
-            background-color: var(--primary);
+            background-color: var(--accent);
             transition: var(--transition);
         }
         
@@ -128,106 +157,157 @@
         .cart-icon {
             font-size: 18px;
             position: relative;
-        }
-        
-        .cart-count {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background-color: var(--primary);
-            color: var(--white);
-            font-size: 10px;
-            width: 16px;
-            height: 16px;
+            background: var(--light);
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: var(--transition);
+        }
+        
+        .cart-icon:hover {
+            background: var(--light-gray);
+            transform: translateY(-2px);
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background-color: var(--accent);
+            color: var(--white);
+            font-size: 11px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
         }
         
         .mobile-toggle {
             display: none;
             font-size: 24px;
             cursor: pointer;
+            width: 44px;
+            height: 44px;
+            border-radius: var(--radius-sm);
+            background: var(--light);
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
         }
         
-        /* Hero Section */
         .hero {
-            padding: 60px 0;
-            background-color: var(--light);
+            padding: 100px 0;
+            background: linear-gradient(135deg, var(--light) 0%, #f8f3f7 100%);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero h1 {
+            font-size: 64px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero p {
+            font-size: 20px;
+            color: var(--secondary);
+            max-width: 600px;
+            margin: 0 auto 40px;
+            opacity: 0.9;
+        }
+        
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background-color: var(--accent);
+            color: var(--white);
+            padding: 16px 36px;
+            border-radius: var(--radius);
+            font-weight: 600;
+            font-size: 16px;
+            transition: var(--transition);
+            border: 2px solid var(--accent);
+            box-shadow: var(--shadow);
+        }
+        
+        .cta-button:hover {
+            background-color: var(--accent-light);
+            border-color: var(--accent-light);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .section-header {
             text-align: center;
             margin-bottom: 60px;
         }
         
-        .hero h1 {
-            font-size: 48px;
-            margin-bottom: 15px;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        .hero p {
-            font-size: 18px;
-            color: var(--secondary);
-            max-width: 600px;
-            margin: 0 auto 30px;
-        }
-        
-        .cta-button {
-            display: inline-block;
-            background-color: var(--primary);
-            color: var(--white);
-            padding: 12px 30px;
-            border-radius: var(--radius);
-            font-weight: 500;
-            font-size: 16px;
-            transition: var(--transition);
-            border: 2px solid var(--primary);
-        }
-        
-        .cta-button:hover {
-            background-color: transparent;
+        .section-title {
+            font-size: 42px;
+            margin-bottom: 16px;
             color: var(--primary);
         }
         
-        /* Catalog Section */
-        .section-title {
-            text-align: center;
-            margin-bottom: 40px;
-            font-size: 32px;
+        .section-subtitle {
+            font-size: 18px;
+            color: var(--secondary);
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.8;
         }
         
         .filters {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 40px;
+            gap: 12px;
+            margin-bottom: 50px;
         }
         
         .filter-btn {
-            padding: 8px 20px;
-            background-color: var(--light);
+            padding: 10px 24px;
+            background-color: var(--white);
             border-radius: 30px;
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 500;
             transition: var(--transition);
             border: 1px solid var(--border);
             cursor: pointer;
         }
         
-        .filter-btn:hover, .filter-btn.active {
-            background-color: var(--primary);
+        .filter-btn:hover {
+            background-color: var(--light);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        
+        .filter-btn.active {
+            background-color: var(--accent);
             color: var(--white);
-            border-color: var(--primary);
+            border-color: var(--accent);
         }
         
         .catalog-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 30px;
-            margin-bottom: 80px;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 32px;
         }
         
         .product-card {
@@ -236,132 +316,144 @@
             overflow: hidden;
             transition: var(--transition);
             box-shadow: var(--shadow);
-            position: relative;
+            border: 1px solid var(--border);
         }
         
         .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--accent-light);
         }
         
         .product-img {
             width: 100%;
-            height: 320px;
+            height: 340px;
             object-fit: cover;
-            background-color: #f8f8f8;
+            background-color: var(--light-gray);
+            transition: var(--transition);
+        }
+        
+        .product-card:hover .product-img {
+            transform: scale(1.03);
         }
         
         .product-info {
-            padding: 20px;
+            padding: 24px;
         }
         
         .product-title {
             font-size: 18px;
             margin-bottom: 8px;
             font-weight: 600;
+            color: var(--primary);
         }
         
         .product-price {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 15px;
+            color: var(--accent);
+            margin-bottom: 20px;
         }
         
         .add-to-cart {
             width: 100%;
-            padding: 10px;
+            padding: 14px;
             background-color: var(--light);
-            border: none;
-            border-radius: var(--radius);
-            font-weight: 500;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
         
         .add-to-cart:hover {
-            background-color: var(--primary);
+            background-color: var(--accent);
             color: var(--white);
+            border-color: var(--accent);
         }
         
-        /* Partners Section */
         .partners {
-            padding: 60px 0;
             background-color: var(--light);
-            margin-bottom: 60px;
-        }
-        
-        .partners h2 {
-            margin-bottom: 40px;
         }
         
         .partner-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 32px;
         }
         
         .partner-card {
             background-color: var(--white);
             border-radius: var(--radius);
-            padding: 30px;
+            padding: 40px 30px;
             text-align: center;
             box-shadow: var(--shadow);
             transition: var(--transition);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            border: 1px solid transparent;
         }
         
         .partner-card:hover {
             transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--accent-light);
         }
         
         .partner-logo {
-            font-size: 36px;
-            margin-bottom: 15px;
+            font-size: 42px;
             color: var(--accent);
+            background: var(--light);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
         }
         
         .partner-name {
-            font-weight: 600;
-            margin-bottom: 10px;
-            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            font-size: 20px;
+            color: var(--primary);
         }
         
         .partner-desc {
-            font-size: 14px;
+            font-size: 15px;
             color: var(--secondary);
+            opacity: 0.9;
         }
         
-        /* Footer */
         footer {
             background-color: var(--primary);
             color: var(--white);
-            padding: 60px 0 30px;
+            padding: 80px 0 40px;
         }
         
         .footer-content {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            margin-bottom: 40px;
+            gap: 50px;
+            margin-bottom: 60px;
         }
         
         .footer-section h3 {
-            font-size: 18px;
-            margin-bottom: 20px;
+            font-size: 20px;
+            margin-bottom: 24px;
             position: relative;
-            padding-bottom: 10px;
+            padding-bottom: 12px;
         }
         
         .footer-section h3::after {
             content: '';
             position: absolute;
-            width: 40px;
-            height: 2px;
-            background-color: var(--white);
+            width: 50px;
+            height: 3px;
+            background-color: var(--accent);
             bottom: 0;
             left: 0;
         }
@@ -371,55 +463,71 @@
         }
         
         .footer-section li {
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .footer-section i {
+            color: var(--accent-light);
+            width: 20px;
         }
         
         .footer-section a {
             transition: var(--transition);
             font-size: 15px;
-            opacity: 0.8;
+            opacity: 0.9;
         }
         
         .footer-section a:hover {
             opacity: 1;
+            color: var(--accent-light);
         }
         
         .newsletter-form {
             display: flex;
-            margin-top: 15px;
+            margin-top: 20px;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
         }
         
         .newsletter-input {
             flex: 1;
-            padding: 12px 15px;
+            padding: 14px 20px;
             border: none;
-            border-radius: var(--radius) 0 0 var(--radius);
             font-family: 'Inter', sans-serif;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+        }
+        
+        .newsletter-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
         }
         
         .newsletter-button {
             background-color: var(--accent);
             color: var(--white);
             border: none;
-            padding: 0 20px;
-            border-radius: 0 var(--radius) var(--radius) 0;
+            padding: 0 24px;
             cursor: pointer;
             transition: var(--transition);
+            font-weight: 600;
         }
         
         .newsletter-button:hover {
-            background-color: var(--secondary);
+            background-color: var(--accent-light);
         }
         
         .social-icons {
             display: flex;
-            gap: 15px;
-            margin-top: 20px;
+            gap: 12px;
+            margin-top: 24px;
         }
         
         .social-icon {
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             background-color: rgba(255, 255, 255, 0.1);
             display: flex;
@@ -429,39 +537,32 @@
         }
         
         .social-icon:hover {
-            background-color: rgba(255, 255, 255, 0.2);
+            background-color: var(--accent);
             transform: translateY(-3px);
         }
         
         .copyright {
             text-align: center;
-            padding-top: 30px;
+            padding-top: 40px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             font-size: 14px;
             opacity: 0.7;
         }
         
-        /* Responsive Styles */
-        @media (max-width: 992px) {
-            .hero h1 {
-                font-size: 40px;
-            }
-        }
-        
         @media (max-width: 768px) {
             .mobile-toggle {
-                display: block;
+                display: flex;
             }
             
             nav ul {
                 position: fixed;
-                top: 70px;
+                top: 80px;
                 left: 0;
                 width: 100%;
                 background-color: var(--white);
                 flex-direction: column;
-                padding: 20px;
-                box-shadow: var(--shadow);
+                padding: 24px;
+                box-shadow: var(--shadow-hover);
                 transform: translateY(-100%);
                 opacity: 0;
                 visibility: hidden;
@@ -475,50 +576,25 @@
                 visibility: visible;
             }
             
-            nav li {
-                margin: 0 0 15px 0;
+            .logo img {
+                height: 50px;
             }
             
-            .hero h1 {
+            .logo-main {
                 font-size: 32px;
-            }
-            
-            .hero p {
-                font-size: 16px;
-            }
-        }
-        
-        @media (max-width: 576px) {
-            .hero {
-                padding: 40px 0;
-            }
-            
-            .hero h1 {
-                font-size: 28px;
-            }
-            
-            .section-title {
-                font-size: 26px;
-            }
-            
-            .catalog-grid {
-                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-                gap: 20px;
-            }
-            
-            .partner-grid {
-                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header & Navigation -->
     <header>
         <div class="container header-content">
             <div class="logo">
-                <div class="logo-main">Thrift</div>
-                <div class="logo-sub">WITH KOKURU</div>
+                <img src="logo.jpeg" alt="Thrift with okuri">
+                <div class="logo-text">
+                    <div class="logo-main">Thrift</div>
+                    <div class="logo-sub">WITH OKURI</div>
+                </div>
             </div>
             
             <div class="mobile-toggle" id="mobileToggle">
@@ -528,33 +604,29 @@
             <nav>
                 <ul id="navMenu">
                     <li><a href="#catalog">Catalog</a></li>
-                    <li><a href="#partners">Partners</a></li>
-                    <li><a href="#about">About</a></li>
                     <li><a href="#contact">Contact</a></li>
-                    <li>
-                        <a href="#" class="cart-icon">
-                            <i class="fas fa-shopping-bag"></i>
-                            <span class="cart-count">0</span>
-                        </a>
-                    </li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <!-- Hero Section -->
     <section class="hero">
-        <div class="container">
+        <div class="container hero-content">
             <h1>Curated Thrift, Conscious Style</h1>
             <p>Discover unique, pre-loved clothing items handpicked for quality and style. Sustainable fashion that tells a story.</p>
-            <a href="#catalog" class="cta-button">Browse Collection</a>
+            <a href="#catalog" class="cta-button">
+                Browse Collection
+                <i class="fas fa-arrow-right"></i>
+            </a>
         </div>
     </section>
 
-    <!-- Catalog Section -->
     <section class="catalog" id="catalog">
         <div class="container">
-            <h2 class="section-title">Clothing Catalog</h2>
+            <div class="section-header">
+                <h2 class="section-title">Clothing Catalog</h2>
+                <p class="section-subtitle">Handpicked sustainable fashion pieces with character and history</p>
+            </div>
             
             <div class="filters">
                 <button class="filter-btn active" data-filter="all">All Items</button>
@@ -564,59 +636,15 @@
                 <button class="filter-btn" data-filter="accessories">Accessories</button>
             </div>
             
-            <div class="catalog-grid" id="productGrid">
-                <!-- Product items will be generated by JavaScript -->
-            </div>
+            <div class="catalog-grid" id="productGrid"></div>
         </div>
     </section>
 
-    <!-- Partners Section -->
-    <section class="partners" id="partners">
-        <div class="container">
-            <h2 class="section-title">Our Partners</h2>
-            
-            <div class="partner-grid">
-                <div class="partner-card">
-                    <div class="partner-logo">
-                        <i class="fas fa-recycle"></i>
-                    </div>
-                    <h3 class="partner-name">EcoThreads</h3>
-                    <p class="partner-desc">Sustainable fabric sourcing and eco-friendly production methods.</p>
-                </div>
-                
-                <div class="partner-card">
-                    <div class="partner-logo">
-                        <i class="fas fa-hands-helping"></i>
-                    </div>
-                    <h3 class="partner-name">Community Revive</h3>
-                    <p class="partner-desc">Supporting local communities through clothing donation programs.</p>
-                </div>
-                
-                <div class="partner-card">
-                    <div class="partner-logo">
-                        <i class="fas fa-paint-brush"></i>
-                    </div>
-                    <h3 class="partner-name">Artisan Collective</h3>
-                    <p class="partner-desc">Collaborating with independent designers for unique pieces.</p>
-                </div>
-                
-                <div class="partner-card">
-                    <div class="partner-logo">
-                        <i class="fas fa-shipping-fast"></i>
-                    </div>
-                    <h3 class="partner-name">Green Logistics</h3>
-                    <p class="partner-desc">Carbon-neutral shipping and sustainable packaging solutions.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
     <footer id="contact">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h3>Thrift WITH KOKURU</h3>
+                    <h3>Thrift WITH OKURI</h3>
                     <p>Sustainable fashion through curated thrifting. Quality pre-loved clothing with modern style.</p>
                     <div class="social-icons">
                         <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
@@ -625,7 +653,6 @@
                         <a href="#" class="social-icon"><i class="fab fa-pinterest-p"></i></a>
                     </div>
                 </div>
-                
                 <div class="footer-section">
                     <h3>Quick Links</h3>
                     <ul>
@@ -636,16 +663,14 @@
                         <li><a href="#">FAQ</a></li>
                     </ul>
                 </div>
-                
                 <div class="footer-section">
                     <h3>Contact Info</h3>
                     <ul>
                         <li><i class="fas fa-map-marker-alt"></i> 123 Fashion Street, Style City</li>
                         <li><i class="fas fa-phone"></i> (123) 456-7890</li>
-                        <li><i class="fas fa-envelope"></i> hello@thriftwithkokuru.com</li>
+                        <li><i class="fas fa-envelope"></i> hello@thriftwithokuri.com</li>
                     </ul>
                 </div>
-                
                 <div class="footer-section">
                     <h3>Newsletter</h3>
                     <p>Subscribe for updates on new arrivals and exclusive offers.</p>
@@ -655,235 +680,97 @@
                     </form>
                 </div>
             </div>
-            
-            <div class="copyright">
-                &copy; 2023 Thrift WITH KOKURU. All rights reserved.
-            </div>
+            <div class="copyright">&copy; 2023 Thrift WITH OKURI. All rights reserved.</div>
         </div>
     </footer>
 
     <script>
-        // Product Data
         const products = [
-            {
-                id: 1,
-                name: "Vintage Denim Jacket",
-                price: 45.99,
-                category: "outerwear",
-                imgColor: "#A3B1C6"
-            },
-            {
-                id: 2,
-                name: "Oversized Graphic Tee",
-                price: 24.99,
-                category: "tops",
-                imgColor: "#E5D9D2"
-            },
-            {
-                id: 3,
-                name: "High-Waist Trousers",
-                price: 32.50,
-                category: "bottoms",
-                imgColor: "#C9B8A8"
-            },
-            {
-                id: 4,
-                name: "Knit Sweater Vest",
-                price: 28.75,
-                category: "tops",
-                imgColor: "#D8C3A5"
-            },
-            {
-                id: 5,
-                name: "Corduroy Skirt",
-                price: 26.99,
-                category: "bottoms",
-                imgColor: "#B5A690"
-            },
-            {
-                id: 6,
-                name: "Leather Tote Bag",
-                price: 52.00,
-                category: "accessories",
-                imgColor: "#8B7355"
-            },
-            {
-                id: 7,
-                name: "Wool Blend Coat",
-                price: 68.50,
-                category: "outerwear",
-                imgColor: "#7C7C7C"
-            },
-            {
-                id: 8,
-                name: "Silk Button-Up",
-                price: 38.25,
-                category: "tops",
-                imgColor: "#F0E6D2"
-            },
-            {
-                id: 9,
-                name: "Canvas Bucket Hat",
-                price: 22.99,
-                category: "accessories",
-                imgColor: "#C4AE78"
-            }
+            {id: 1, name: "Vintage Denim Jacket", price: 45.99, category: "outerwear", imgColor: "#D4A5C9"},
+            {id: 2, name: "Oversized Graphic Tee", price: 24.99, category: "tops", imgColor: "#E5D4E8"},
+            {id: 3, name: "High-Waist Trousers", price: 32.50, category: "bottoms", imgColor: "#C89BBF"},
+            {id: 4, name: "Knit Sweater Vest", price: 28.75, category: "tops", imgColor: "#DEC9E3"},
+            {id: 5, name: "Corduroy Skirt", price: 26.99, category: "bottoms", imgColor: "#C4B0CF"},
+            {id: 6, name: "Leather Tote Bag", price: 52.00, category: "accessories", imgColor: "#B8A5C9"},
+            {id: 7, name: "Wool Blend Coat", price: 68.50, category: "outerwear", imgColor: "#A88FB8"},
+            {id: 8, name: "Silk Button-Up", price: 38.25, category: "tops", imgColor: "#EFE2F2"},
+            {id: 9, name: "Canvas Bucket Hat", price: 22.99, category: "accessories", imgColor: "#CDB8D7"}
         ];
 
-        // DOM Elements
         const productGrid = document.getElementById('productGrid');
         const filterButtons = document.querySelectorAll('.filter-btn');
-        const cartCount = document.querySelector('.cart-count');
         const mobileToggle = document.getElementById('mobileToggle');
         const navMenu = document.getElementById('navMenu');
-        const newsletterForm = document.getElementById('newsletterForm');
 
-        // Cart State
-        let cart = [];
-
-        // Initialize the product grid
         function renderProducts(filter = 'all') {
             productGrid.innerHTML = '';
+            const filtered = filter === 'all' ? products : products.filter(p => p.category === filter);
             
-            const filteredProducts = filter === 'all' 
-                ? products 
-                : products.filter(product => product.category === filter);
-            
-            filteredProducts.forEach(product => {
-                const productCard = document.createElement('div');
-                productCard.className = 'product-card';
-                productCard.setAttribute('data-category', product.category);
-                
-                productCard.innerHTML = `
-                    <div class="product-img" style="background-color: ${product.imgColor};"></div>
+            filtered.forEach(p => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <div class="product-img" style="background-color: ${p.imgColor};"></div>
                     <div class="product-info">
-                        <h3 class="product-title">${product.name}</h3>
-                        <div class="product-price">$${product.price.toFixed(2)}</div>
-                        <button class="add-to-cart" data-id="${product.id}">Add to Cart</button>
+                        <h3 class="product-title">${p.name}</h3>
+                        <div class="product-price">$${p.price.toFixed(2)}</div>
+                        <button class="add-to-cart" data-id="${p.id}">
+                            <i class="fas fa-plus"></i>
+                            Add to Cart
+                        </button>
                     </div>
                 `;
-                
-                productGrid.appendChild(productCard);
+                productGrid.appendChild(card);
             });
             
-            // Add event listeners to the new "Add to Cart" buttons
-            document.querySelectorAll('.add-to-cart').forEach(button => {
-                button.addEventListener('click', addToCart);
+            document.querySelectorAll('.add-to-cart').forEach(btn => {
+                btn.addEventListener('click', addToCart);
             });
         }
 
-        // Add item to cart
         function addToCart(e) {
-            const productId = parseInt(e.target.getAttribute('data-id'));
-            const product = products.find(p => p.id === productId);
-            
-            cart.push(product);
-            updateCartCount();
-            
-            // Visual feedback
-            e.target.textContent = 'Added!';
-            e.target.style.backgroundColor = '#333';
-            e.target.style.color = '#fff';
-            
+            const btn = e.target.closest('.add-to-cart');
+            const orig = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-check"></i> Added!';
+            btn.style.backgroundColor = '#2ecc71';
             setTimeout(() => {
-                e.target.textContent = 'Add to Cart';
-                e.target.style.backgroundColor = '';
-                e.target.style.color = '';
-            }, 1000);
+                btn.innerHTML = orig;
+                btn.style.backgroundColor = '';
+            }, 1500);
         }
 
-        // Update cart count display
-        function updateCartCount() {
-            cartCount.textContent = cart.length;
-        }
-
-        // Filter products by category
-        function setupFilters() {
-            filterButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    // Remove active class from all buttons
-                    filterButtons.forEach(btn => btn.classList.remove('active'));
-                    
-                    // Add active class to clicked button
-                    button.classList.add('active');
-                    
-                    // Filter products
-                    const filter = button.getAttribute('data-filter');
-                    renderProducts(filter);
-                });
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                renderProducts(btn.getAttribute('data-filter'));
             });
-        }
-
-        // Mobile menu toggle
-        function setupMobileMenu() {
-            mobileToggle.addEventListener('click', () => {
-                navMenu.classList.toggle('active');
-                mobileToggle.innerHTML = navMenu.classList.contains('active') 
-                    ? '<i class="fas fa-times"></i>' 
-                    : '<i class="fas fa-bars"></i>';
-            });
-            
-            // Close menu when clicking a link
-            document.querySelectorAll('nav a').forEach(link => {
-                link.addEventListener('click', () => {
-                    navMenu.classList.remove('active');
-                    mobileToggle.innerHTML = '<i class="fas fa-bars"></i>';
-                });
-            });
-        }
-
-        // Newsletter form submission
-        function setupNewsletter() {
-            newsletterForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const emailInput = newsletterForm.querySelector('.newsletter-input');
-                
-                if (emailInput.value) {
-                    // In a real app, you would send this to a server
-                    alert('Thank you for subscribing to our newsletter!');
-                    emailInput.value = '';
-                }
-            });
-        }
-
-        // Smooth scrolling for anchor links
-        function setupSmoothScroll() {
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    const href = this.getAttribute('href');
-                    
-                    if (href === '#') return;
-                    
-                    e.preventDefault();
-                    const targetElement = document.querySelector(href);
-                    
-                    if (targetElement) {
-                        window.scrollTo({
-                            top: targetElement.offsetTop - 80,
-                            behavior: 'smooth'
-                        });
-                    }
-                });
-            });
-        }
-
-        // Initialize everything when DOM is loaded
-        document.addEventListener('DOMContentLoaded', () => {
-            renderProducts();
-            setupFilters();
-            setupMobileMenu();
-            setupNewsletter();
-            setupSmoothScroll();
-            updateCartCount();
         });
 
-        // Handle window resize for responsive behavior
-        window.addEventListener('resize', () => {
-            if (window.innerWidth > 768) {
+        mobileToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            mobileToggle.innerHTML = navMenu.classList.contains('active') 
+                ? '<i class="fas fa-times"></i>' 
+                : '<i class="fas fa-bars"></i>';
+        });
+
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', () => {
                 navMenu.classList.remove('active');
                 mobileToggle.innerHTML = '<i class="fas fa-bars"></i>';
+            });
+        });
+
+        document.getElementById('newsletterForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const input = e.target.querySelector('.newsletter-input');
+            if (input.value) {
+                alert('Thank you for subscribing!');
+                input.value = '';
             }
         });
+
+        renderProducts();
     </script>
 </body>
 </html>
